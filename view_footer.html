@@ -1,0 +1,39 @@
+   <!-- ////////////////////////////////////////////////////////////////////////////-->
+
+
+    <footer class="footer footer-static footer-light navbar-shadow">
+      <p class="clearfix blue-grey lighten-2 text-sm-center mb-0 px-2"><span class="float-md-left d-block d-md-inline-block">Copyright  &copy; 2019 <a class="text-bold-800 grey darken-2" href="#" target="_blank">CompanyName </a>, All rights reserved. </span><span class="float-md-right d-block d-md-inline-block d-none d-lg-block">Hand-crafted & Made with <i class="ft-heart pink"></i></span></p>
+    </footer>
+
+    <script src="app-assets/vendors/js/vendors.min.js"></script>
+    <script type="text/javascript" src="app-assets/vendors/js/ui/jquery.sticky.js"></script>
+    <script type="text/javascript" src="app-assets/vendors/js/charts/jquery.sparkline.min.js"></script>
+    <script src="app-assets/vendors/js/charts/raphael-min.js"></script>
+    <script src="app-assets/vendors/js/charts/morris.min.js"></script>
+    <script src="app-assets/vendors/js/extensions/unslider-min.js"></script>
+    <script src="app-assets/vendors/js/timeline/horizontal-timeline.js"></script>
+    <script src="app-assets/js/core/app-menu.js"></script>
+    <script src="app-assets/js/core/app.js"></script>
+    <script type="text/javascript" src="app-assets/js/scripts/ui/breadcrumbs-with-stats.js"></script>
+    <script src="app-assets/js/scripts/pages/dashboard-ecommerce.js"></script>
+	
+	<?php if($_GET['item'] == "setting" && $_GET['cat'] == "palert"){?>
+		<script src="app-assets/vendors/js/extensions/toastr.min.js"></script>
+	<?php }?>
+	
+	<?php if($_GET['item'] == "history"){?>
+		<script src="app-assets/vendors/js/tables/jsgrid/jsgrid.min.js"></script>
+		<script src="app-assets/vendors/js/tables/jsgrid/griddata.js"></script>
+		<script src="app-assets/js/scripts/tables/jsgrid/jsgrid.js"></script>
+    <?php } ?>
+	
+	<?php if($_GET['item'] == "event"){?>
+		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+		<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/modules/exporting.js"></script>
+        <script src="https://code.highcharts.com/modules/export-data.js"></script>
+	<?php } ?>
+        
+  </body>
+</html>

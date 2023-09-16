@@ -1,0 +1,806 @@
+  <div class="aABCD-content content">
+    <div class="content-wraABCDer">
+      
+	  	  <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+				<div class="card-content collpase show">
+                  <div class="card-body">
+					<form class="form form-horizontal" id="dataform">
+                      <div class="form-body">	
+						
+						<div class="row">
+							<div class="col-md-4">
+							<?php
+								
+								ini_set("max_execution_time", "-1");
+								ini_set("memory_limit", "-1");
+								ignore_user_abort(true);
+								set_time_limit(0);
+								$sensorArray = array(Di_DC, Di_JT, Di_NS, Di_ABCD, Di_TM, Di_ABCD, Guo_ABCD, Shui_IP, Shui_NP, Shui_UP, Shui_WS, Shui_ABCD, Tong_OW, Tong_EFG, Shui_OW, Shui_EFG);
+								$project = new Project();
+								
+							?>
+								<label for="location_select">選擇地點</label>
+								<select id="location_select" name="interested" class="form-control">
+								  <option value="">請選擇</option>
+								  <option value="Guo">Guo</option>
+								  <option value="Shui">Shui</option>
+								  <option value="Yo">Yo</option>
+								  <option value="Yee">Yee</option>
+								  <option value="Di">Di</option>
+								  <option value="Tong">地點N及其他</option>
+								</select>
+								  <label for="year">選擇儀器種類</label>
+								  <select id="sensor_select" name="interested" class="form-control">
+								  <option value="請選擇">請選擇</option>
+								  
+								  <option class="senno sensorJGuo" value="ABCDXX">sensorJ</option>
+								  <option class="senno sensorK" value="ABCDTL">sensorK</option>
+								  <option class="senno sensorJ" value="ABCD">sensorJ</option>
+								  <option class="senno sensorL" value="WS">sensorL</option>
+								  <option class="senno sensorM" value="UP">sensorR</option>
+								  <option class="senno sensorN" value="1NP2IP">sensorN</option>
+								  <option class="senno sensorO" value="DC">sensorO</option>
+								  <option class="senno sensorP" value="JT">sensorP</option>
+								  <option class="senno sensorQ" value="NS">sensorQ</option>
+								  <option class="senno sensorR" value="ABCD">sensorR</option>
+								  <option class="senno sensorS" value="TM">sensorS</option>
+								  <option class="senno sensorT" value="1OW2EFG">sensorT</option>
+								  
+								</select>
+
+								<label id="Di_ABCD_title" for="year">DisensorJ分類</label>
+								 <select id="Di_ABCD_select" name="interested" class="form-control">
+								  <option value="all">全選</option>
+
+								  <option value="ABCD">ABCD</option>
+								  <option value="ABCDH">ABCDH,ABCDF</option>
+								  <option value="ABCDP1">ABCDP1~2</option>
+								  <option value="ABCDP2">ABCDP3~5</option>
+								  <option value="ABCDP3">ABCDP6~A</option>
+								  <option value="ABCDT1">ABCDT1~3</option>
+								  <option value="ABCDT2">ABCDT4~7</option>
+								  
+								</select>
+
+								  <label for="issueinput3">起始日</label>
+								  <?php
+								  	echo '<input type="date" id="issueinput3" name="interested" value = "'.date('Y-m-d', strtotime( 'today -1 month' )).'" class="form-control">';
+								  ?>
+								  <label for="issueinput4">結束日</label>
+								  <?php
+								  	echo '<input type="date" id="issueinput4" name="interested" value = "'.date('Y-m-d').'" class="form-control">';
+								  ?>					
+							</div>	
+                          <div class="col-md-4">
+                            <div class="form-group" style="height:300px;overflow-y:scroll;">
+                              <label for="projectinput5">選擇儀器</label>
+                              <form id="divece">
+									<?php
+										echo "<div class='sensors_box'>";
+											$Shui_NPEFGOWIP_All = 1;
+											$Tong_OWEFG_All = 1;
+											echo "<span class='sensor_name Yee' style='display:inline-block;'><input  class='clickAlla' type='checkbox' data-gt='Yee' checked>".All."</span>";
+												echo "<span class='sensor_name Yo' style='display:inline-block;'><input  class='clickAlla' type='checkbox' data-gt='Yo' checked>".All."</span>";
+												echo "<span class='sensor_name Shui_1OW2EFG' style='display:inline-block;'><input  class='clickAlla' type='checkbox' data-gt='Shui_1OW2EFG' checked>".All."</span>";
+											foreach($sensorArray as $sensor){
+												$sql1 = "SELECT SubDeviceID  FROM DabaBase.dbo.".$sensor." GROUP BY SubDeviceID ORDER BY SubDeviceID";
+										 		$data1 = $project->custosql($sql1);
+												if ($sensor == 'Shui_NP' || $sensor == 'Shui_IP')
+												{
+													$sensorName = 'Shui_1NP2IPOWEFG';
+													if ($Shui_NPEFGOWIP_All == 1)
+													{
+														echo "<span class='sensor_name ".$sensor."' style='display:inline-block;'><input  class='clickAlla' type='checkbox' data-gt='".$sensorName."' checked>".All."</span>";
+													}	
+													$Shui_NPEFGOWIP_All = 0;
+												}
+												else if ($sensor == 'Shui_ABCD')
+												{
+													$sensorName = 'Shui_ABCDOWEFG';
+													echo "<span class='sensor_name ".$sensor."' style='display:inline-block;'><input  class='clickAlla' type='checkbox' data-gt='".$sensorName."' checked>".All."</span>";
+												}
+												else if ($sensor == 'Shui_WS')
+												{
+													$sensorName = 'Shui_WSOWEFG';
+													echo "<span class='sensor_name ".$sensor."' style='display:inline-block;'><input  class='clickAlla' type='checkbox' data-gt='".$sensorName."' checked>".All."</span>";
+												}
+												else if ($sensor == 'Shui_UP')
+												{
+													$sensorName = 'Shui_UPOWEFG';
+													echo "<span class='sensor_name ".$sensor."' style='display:inline-block;'><input  class='clickAlla' type='checkbox' data-gt='".$sensorName."' checked>".All."</span>";
+												}
+												else if ($sensor == 'Shui_OW' || $sensor == 'Shui_EFG')
+												{
+													$sensorName = $sensor;
+												}
+												else if ($sensor == 'Tong_OW' || $sensor == 'Tong_EFG')
+												{
+													$sensorName = 'Tong_1OW2EFG';
+													if ($Tong_OWEFG_All == 1)
+													{
+														echo "<span class='sensor_name ".$sensor."' style='display:inline-block;'><input  class='clickAlla' type='checkbox' data-gt='".$sensorName."' checked>".All."</span>";
+													}
+													$Tong_OWEFG_All = 0;
+												}
+												else if($sensor == 'Di_ABCD')
+												{
+													$sensorName = $sensor;
+												}
+												else if ($sensor == 'Guo_ABCD')
+												{
+													$sensorName = $sensor;
+													echo "<span class='sensor_name ".$sensor."XX' style='display:inline-block;'><input  class='clickAlla' type='checkbox' data-gt='".$sensorName."XX' checked>".All."</span>";
+													echo "<span class='sensor_name ".$sensor."TL' style='display:inline-block;'><input  class='clickAlla' type='checkbox' data-gt='".$sensorName."TL' checked>".All."</span>";
+												}
+												else
+												{
+													$sensorName = $sensor;
+													echo "<span class='sensor_name ".$sensor."' style='display:inline-block;'><input  class='clickAlla' type='checkbox' data-gt='".$sensorName."' checked>".All."</span>";
+												}
+												
+												
+												
+													foreach($data1 as $k){
+
+														if($sensor=="Di_ABCD")
+														{
+															$str=substr($k['SubDeviceID'],2,2);
+
+															if($str=="P1"||$str=="P2")
+																$str="P1";
+															else if($str=="P3"||$str=="P4"||$str=="P5")
+																$str="P2";
+															else if($str=="P6"||$str=="P7"||$str=="PA")
+																$str="P3";
+															else if($str=="T1"||$str=="T2"||$str=="T3")
+																$str="T1";
+															else if($str=="T4"||$str=="T5"||$str=="T6"||$str=="T7")
+																$str="T2";
+															else $str=substr($str,0,-1);
+															
+															if($str=="F")
+																$str="H";
+															if($str!="T1"&&$str!="T2"&&$str!="P1"&&$str!="P2"&&$str!="P3"&&$str!="H")
+																$str="0";
+														
+
+															echo "<span class='sensor_name ".$sensor."' style='display:inline-block;'><input type='checkbox' name='".$sensorName."[]".$str."' style='margin:5px' value='".$k['SubDeviceID']."'  checked>".$k['SubDeviceID']."</span>";
+														}
+														else if ($sensor=="Guo_ABCD")
+														{
+															if (strpos($k["SubDeviceID"], 'TL') !== false)
+															{
+																echo "<span class='sensor_name ".$sensor."TL ".$k['SubDeviceID']."' style='display:inline-block;'><input type='checkbox' name='".$sensorName."TL[]' style='margin:5px' value='".$k['SubDeviceID']."'  checked>".$k['SubDeviceID']."</span>";
+															}
+															else
+															{
+																echo "<span class='sensor_name ".$sensor."XX ".$k['SubDeviceID']."' style='display:inline-block;'><input type='checkbox' name='".$sensorName."XX[]' style='margin:5px' value='".$k['SubDeviceID']."'  checked>".$k['SubDeviceID']."</span>";
+															}
+															
+														}
+														else if ($sensor=="Shui_UP")
+														{
+															if (in_array($k["SubDeviceID"],array('ABCDA-1','ABCDA-2', 'ABCDA-3')))
+															{
+																echo "<span class='sensor_name Yee ".$k['SubDeviceID']."' style='display:inline-block;'><input type='checkbox' name='Yee[]' style='margin:5px' value='".$k['SubDeviceID']."'  checked>".$k['SubDeviceID']."</span>";
+															}
+															else if (in_array($k["SubDeviceID"],array('ABCD5','ABCD6', 'ABCD7')))
+															{
+																echo "<span class='sensor_name Yo ".$k['SubDeviceID']."' style='display:inline-block;'><input type='checkbox' name='Yo[]' style='margin:5px' value='".$k['SubDeviceID']."'  checked>".$k['SubDeviceID']."</span>";
+															}
+															else
+															{
+																echo "<span class='sensor_name ".$sensor." ".$k['SubDeviceID']."' style='display:inline-block;'><input type='checkbox' name='".$sensorName."[]' style='margin:5px' value='".$k['SubDeviceID']."'  checked>".$k['SubDeviceID']."</span>";
+															}
+														}
+														else if ($sensor=="Di_ABCD")
+														{
+															if (in_array($k["SubDeviceID"],array('ABCD1','ABCD2-1', 'ABCD2-2', 'ABCD3', 'ABCD4')))
+															{
+																echo "<span class='sensor_name Yo ".$k['SubDeviceID']."' style='display:inline-block;'><input type='checkbox' name='Yo[]' style='margin:5px' value='".$k['SubDeviceID']."'  checked>".$k['SubDeviceID']."</span>";
+															}
+															else
+															{
+																echo "<span class='sensor_name ".$sensor." ".$k['SubDeviceID']."' style='display:inline-block;'><input type='checkbox' name='".$sensorName."[]' style='margin:5px' value='".$k['SubDeviceID']."'  checked>".$k['SubDeviceID']."</span>";
+															}
+														}
+														else 
+														{
+															echo "<span class='sensor_name ".$sensor." ".$k['SubDeviceID']."' style='display:inline-block;'><input type='checkbox' name='".$sensorName."[]' style='margin:5px' value='".$k['SubDeviceID']."'  checked>".$k['SubDeviceID']."</span>";
+
+															
+														}
+													}
+											}
+										echo "</div>";
+									?>
+								</form>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label for="issueinput7">Y1軸(黑色)最大值</label>
+                              <input type="teABCD" id="issueinput7" class="form-control" name="max1">
+							  <label for="issueinput8">Y1軸(黑色)最小值</label>
+                              <input type="teABCD" id="issueinput8" class="form-control" name="min1" >
+                              <label for="issueinput10">Y2軸(深藍色)最大值</label>
+                              <input type="teABCD" id="issueinput10" class="form-control" name="max2">
+							  <label for="issueinput11">Y2軸(深藍色)最小值</label>
+                              <input type="teABCD" id="issueinput11" class="form-control" name="min2" >
+                              <label for="issueinput12">Y3軸(土色)最大值</label>
+                              <input type="teABCD" id="issueinput12" class="form-control" name="max3">
+							  <label for="issueinput13">Y3軸(土色)最小值</label>
+                              <input type="teABCD" id="issueinput13" class="form-control" name="min3" >
+                              <label for="issueinput14">Y4軸(水藍色)最大值</label>
+                              <input type="teABCD" id="issueinput14" class="form-control" name="max4">
+							  <label for="issueinput15">Y4軸(水藍色)最小值</label>
+                              <input type="teABCD" id="issueinput15" class="form-control" name="min4" >
+							  <label for="issueinput9">Y軸刻度</label>
+                              <input type="teABCD" id="issueinput9" class="form-control" name="interval" >
+							  <label for="issueinput10">X軸刻度</label>
+                              <input type="teABCD" id="issueinput10" class="form-control" name="x_interval" value="0">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-actions">
+                        <button type="button" class="btn btn-warning mr-1">
+                          <i class="ft-x"></i> Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary submit">
+                          <i class="fa fa-check-square-o"></i> Save
+                        </button>
+                      </div>
+                    </form>
+				</div>
+			</div>
+		  </div>
+		</div>
+	  </div>
+      <div class="content-body">
+        <!-- combination charts section start -->
+        <section id="combination-charts">
+          <!-- Column + Line Chart -->
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header font">
+					<h4 class="card-title">歷線顯示</h4>
+					<a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+					  <div class="heading-elements">
+						<ul class="list-inline mb-0">
+						  <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+						  <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+						  <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+						  <li><a data-action="close"><i class="ft-x"></i></a></li>
+						</ul>
+					  </div>                   
+                </div>
+				<div class="card-content collapse show">
+                  <div class="card-body">
+                    <div id="container" style="min-width: 400px; height: 250px; margin: 0 auto"><img src='aABCD-assets\images\InternetSlowdown_Day.gif' /></div>
+					<div id="chartContainer" style="min-width: 400px; height: 250px; margin: 0 auto"></div>
+                  </div>
+                </div>
+			  </div>
+            </div>
+          </div>
+          
+          
+        </section>
+        <!-- // combination charts section end -->
+      </div>
+    </div>
+  </div>
+  <!-- ////////////////////////////////////////////////////////////////////////////-->
+  <footer class="footer footer-static footer-light navbar-border">
+    <p class="clearfix blue-grey lighten-2 teABCD-sm-center mb-0 px-2">
+      <span class="float-md-left d-block d-md-inline-block">Copyright &copy; 2018 <a class="teABCD-bold-800 grey darken-2" href="https://themeforest.net/user/pixinvent/portfolio?ref=pixinvent"
+        target="_blank">PIXINVENT </a>, All rights reserved. </span>
+      <span class="float-md-right d-block d-md-inline-block d-none d-lg-block">Hand-crafted & Made with <i class="ft-heart pink"></i></span>
+    </p>
+  </footer>
+  <!-- BEGIN VENDOR JS-->
+  <script src="aABCD-assets/vendors/js/vendors.min.js" type="teABCD/javascript"></script>
+  <!-- BEGIN VENDOR JS-->
+  <!-- BEGIN STACK JS-->
+  <script src="aABCD-assets/js/core/aABCD-menu.js" type="teABCD/javascript"></script>
+  <script src="aABCD-assets/js/core/aABCD.js" type="teABCD/javascript"></script>
+  <script src="aABCD-assets/js/scripts/customizer.js" type="teABCD/javascript"></script>
+  <!-- END STACK JS-->
+  <!-- BEGIN PAGE LEVEL JS-->
+
+  <!-- END PAGE LEVEL JS-->
+  		<script src="aABCD-assets/js/scripts/highcharts.js"></script>
+<script src="aABCD-assets/js/scripts/exporting.js"></script>
+<script src="aABCD-assets/js/scripts/offline-exporting.js"></script>
+
+		<script>
+		$(document).ready(function(){
+			$("#container").hide();
+			$("#container1").hide();
+			$("#Di_ABCD_select").hide();
+			$("#Di_ABCD_title").hide();
+			$('.sensor_name').hide();
+			$('.senno').hide();
+			
+		})
+
+		$("#location_select").change(function (){
+			$("input[name='Shui_OW[]']").each(function() {
+						 $(this).prop("checked", true);
+					 });
+				   	 	$("input[name='Shui_EFG[]']").each(function() {
+						 $(this).prop("checked", true);
+					 });
+			var location = $(this).val();
+			$('.sensor_name').hide();
+			$(".senno").hide();
+			$("#sensor_select").val("請選擇");
+			$("#Di_ABCD_select").hide();
+			$("#Di_ABCD_title").hide();
+			switch (location)
+			{
+				case "Guo":
+				$('.sensorJGuo').show();
+				$('.sensorK').show();
+				break;
+				case "Shui":
+				$('.sensorJ').show();
+				$('.sensorL').show();
+				// $('.sensorM').show();
+				$('.sensorN').show();
+				$('.sensorT').show();
+				break;
+				case "Di":
+				$('.sensorO').show();
+				$('.sensorP').show();
+				$('.sensorQ').show();
+				$('.sensorR').show();
+				$('.sensorS').show();
+				$('.sensorJ').show();
+				break;
+				case "Tong":
+				$('.sensorT').show();
+				break;
+				case "Yo":
+				$('.sensorM').show();
+				break;
+				case "Yee":
+				$('.sensorR').show();
+				break;
+			}
+		});
+			
+		$("#sensor_select").change(function (){
+			$("input[name='Shui_OW[]']").each(function() {
+						 $(this).prop("checked", false);
+					 });
+				   	 	$("input[name='Shui_EFG[]']").each(function() {
+						 $(this).prop("checked", false);
+					 });
+				var sensor = $(this).val();
+				var location = $("#location_select").val();
+				$("#Di_ABCD_select").hide();
+				$("#Di_ABCD_title").hide();
+				switch (sensor)
+				{
+					case "ABCDTL":
+					
+					$('.sensor_name').hide();
+					$('.Guo_ABCDTL').show();
+					$('.Guo_ABCDTL').attr('style','display:inline-block');
+					break;
+					case "ABCDXX":
+					
+					$('.sensor_name').hide();
+					$('.Guo_ABCDXX').show();
+					$('.Guo_ABCDXX').attr('style','display:inline-block');
+					break;
+					case "ABCD":
+						// if(location=="Guo")
+						// {
+						// 	$('.sensor_name').hide();
+						// 	$('.'+location+'_ABCD').show();
+						// }
+						if(location=="Shui")
+						{
+							$('.sensor_name').hide();
+							$('.'+location+'_ABCD').show();
+							$('.'+location+'_ABCD')
+							// $('.Shui_OW').show();
+							// $('.Shui_OW').attr('style','display:inline-block');
+							// $('.Shui_EFG').show();
+							// $('.Shui_EFG').attr('style','display:inline-block');
+							// $("input[value='RH1']").prop("checked", false);
+							// $("input[value='TEMP1']").prop("checked", false);
+							// $('.RH1').hide();
+							// $('.TEMP1').hide();
+						}
+						if(location=="Di")
+						{
+							$('.sensor_name').hide();
+							$('.'+location+'_ABCD').show();
+							$('.'+location+'_ABCD').attr('style','display:inline-block');
+							$("#Di_ABCD_select").show();
+							$("#Di_ABCD_select").attr('style','display:inline-block');
+							$("#Di_ABCD_title").show();
+							$("#Di_ABCD_title").attr('style','display:inline-block');
+						}
+						break;
+					case "WS":
+						if(location=="Shui")
+						{
+							$('.sensor_name').hide();
+							$('.'+location+'_WS').show();
+							$('.'+location+'_WS').attr('style','display:inline-block');
+							$('.Shui_OW').show();
+							$('.Shui_OW').attr('style','display:inline-block');
+							$('.Shui_EFG').show();
+							$('.Shui_EFG').attr('style','display:inline-block');
+							$("input[value='OW-1']").prop("checked", true);
+							$("input[value='RAIN']").prop("checked", true);
+							$('.RH1').hide();
+							$('.TEMP1').hide();
+						}
+						break;
+					case "UP":
+						if (location == 'Yo')
+						{
+							$('.sensor_name').hide();
+							$(".Yo").show();
+							
+						}
+						break;
+					case "1NP2IP":
+						if(location=="Shui")
+						{
+							$('.sensor_name').hide();
+							$('.'+location+'_NP').show();
+							$('.'+location+'_NP').attr('style','display:inline-block');
+							// $('.'+location+'_EFG').show();
+							// $('.'+location+'_EFG').attr('style','display:inline-block');
+							// $('.'+location+'_OW').show();
+							// $('.'+location+'_OW').attr('style','display:inline-block');
+							$('.'+location+'_IP').show();
+							$('.'+location+'_IP').attr('style','display:inline-block');
+							// $("input[value='RH1']").prop("checked", false);
+							// $("input[value='RAIN']").prop("checked", false);
+							// $('.RH1').hide();
+							// $('.RAIN').hide();
+						}
+						break;
+					case "DC":
+						if(location=="Di")
+						{
+							$('.sensor_name').hide();
+							$('.'+location+'_DC').show();
+							$('.'+location+'_DC').attr('style','display:inline-block');
+						}
+						break;
+					case "JT":
+						if(location=="Di")
+						{
+							$('.sensor_name').hide();
+							$('.'+location+'_JT').show();
+							$('.'+location+'_JT').attr('style','display:inline-block');
+						}
+						break;
+					case "NS":
+						if(location=="Di")
+						{
+							$('.sensor_name').hide();
+							$('.'+location+'_NS').show();
+							$('.'+location+'_NS').attr('style','display:inline-block');
+						}
+						break;
+					case "ABCD":
+						if(location=="Di")
+						{
+							$('.sensor_name').hide();
+							$('.'+location+'_ABCD').show();
+							$('.'+location+'_ABCD').attr('style','display:inline-block');
+						}
+						else if (location == 'Yee')
+						{
+							$('.sensor_name').hide();
+							$(".Yee").show();
+							
+						}
+						break;
+					case "TM":
+						if(location=="Di")
+						{
+							$('.sensor_name').hide();
+							$('.'+location+'_TM').show();
+							$('.'+location+'_TM').attr('style','display:inline-block');
+						}
+						break;
+					case "1OW2EFG":
+						if(location=="Tong")
+						{
+							$('.sensor_name').hide();
+							$('.'+location+'_OW').show();
+							$('.'+location+'_OW').attr('style','display:inline-block');
+							$('.'+location+'_EFG').show();
+							$('.'+location+'_EFG').attr('style','display:inline-block');
+						}
+						else if (location=="Shui")
+						{
+							$("input[name='Shui_OW[]']").each(function() {
+						 $(this).prop("checked", true);
+					 });
+				   	 	$("input[name='Shui_EFG[]']").each(function() {
+						 $(this).prop("checked", true);
+					 });
+							$('.sensor_name').hide();
+							$('.Shui_1OW2EFG').show();
+							$('.'+location+'_OW').show();
+							$('.'+location+'_OW').attr('style','display:inline-block');
+							$('.'+location+'_EFG').show();
+							$('.'+location+'_EFG').attr('style','display:inline-block');
+						}
+						break;
+				}
+			});
+
+
+			$("#Di_ABCD_select").change(function (){
+				var selected = $(this).val();
+				$('.sensor_name').hide();
+				$('.Di_ABCD').show();
+				$("input[name='Di_ABCD[]0']").each(function() {
+						 	$(this).prop("checked", false);
+					 	});
+				$("input[name='Di_ABCD[]P1']").each(function() {
+						 	$(this).prop("checked", false);
+					 	});
+				$("input[name='Di_ABCD[]P2']").each(function() {
+						 	$(this).prop("checked", false);
+					 	});
+				$("input[name='Di_ABCD[]P3']").each(function() {
+						 	$(this).prop("checked", false);
+					 	});
+				$("input[name='Di_ABCD[]T1']").each(function() {
+						 	$(this).prop("checked", false);
+					 	});
+				$("input[name='Di_ABCD[]T2']").each(function() {
+						 	$(this).prop("checked", false);
+					 	});
+				$("input[name='Di_ABCD[]H']").each(function() {
+						 	$(this).prop("checked", false);
+					 	});
+				switch (selected)
+				{
+					case "all":
+						$("input[name='Di_ABCD[]0']").each(function() {
+						 	$(this).prop("checked", true);
+					 	});
+						$("input[name='Di_ABCD[]P1']").each(function() {
+						 	$(this).prop("checked", true);
+					 	});
+					 	$("input[name='Di_ABCD[]P2']").each(function() {
+						 	$(this).prop("checked", true);
+					 	});
+					 	$("input[name='Di_ABCD[]P3']").each(function() {
+						 	$(this).prop("checked", true);
+					 	});
+						$("input[name='Di_ABCD[]T1']").each(function() {
+						 	$(this).prop("checked", true);
+					 	});
+					 	$("input[name='Di_ABCD[]T2']").each(function() {
+						 	$(this).prop("checked", true);
+					 	});
+						$("input[name='Di_ABCD[]H']").each(function() {
+						 	$(this).prop("checked", true);
+					 	});
+						break;
+					case "ABCD":
+						$("input[name='Di_ABCD[]0']").each(function() {
+						 	$(this).prop("checked", true);
+					 	});
+					
+						break;
+					case "ABCDH":
+						 $("input[name='Di_ABCD[]H']").each(function() {
+						 	$(this).prop("checked", true);
+					 	});
+						break;
+					case "ABCDP1":
+						 $("input[name='Di_ABCD[]P1']").each(function() {
+						 	$(this).prop("checked", true);
+					 	});
+						break;
+					case "ABCDP2":
+					 	$("input[name='Di_ABCD[]P2']").each(function() {
+						 	$(this).prop("checked", true);
+					 	});
+						break;
+					case "ABCDP3":
+					 	$("input[name='Di_ABCD[]P3']").each(function() {
+						 	$(this).prop("checked", true);
+					 	});
+						break;
+					case "ABCDT1":
+						 $("input[name='Di_ABCD[]T1']").each(function() {
+						 	$(this).prop("checked", true);
+					 	});
+						break;
+					case "ABCDT2":
+						 $("input[name='Di_ABCD[]T2']").each(function() {
+						 	$(this).prop("checked", true);
+					 	});
+						break;
+	
+				}
+
+			});
+
+
+
+			$(".submit").click(function(){
+				$.ajax({
+					type: "POST",
+					url: "model/windRose2.php",
+					data: "location_code="+$('#location_select').val()+"&sensor_code="+$('#sensor_select').val()+"&title="+$("#sensor_select :selected").teABCD()+"&query_date_start="+$("#issueinput3").val()+"&query_date_end="+$("#issueinput4").val()+"&max1="+$("#issueinput7").val()+"&min1="+$("#issueinput8").val()+"&max2="+$("#issueinput10").val()+"&min2="+$("#issueinput11").val()+"&max3="+$("#issueinput12").val()+"&min3="+$("#issueinput13").val()+"&int="+$("#issueinput9").val()+"&data="+$("#dataform").serialize(),
+					dataType:'html',
+					restful:true,
+					cache:false,
+					timeout:20000000,
+					async:true,
+					beforeSend :function(data) { 
+						// $("#container").show();
+						// var now = new Date();
+						// if ($("#issueinput3").val() == $("#year_select").val()+"-01-01" && $("#issueinput4").val() == $("#year_select").val()+"-12-31" && $("#year_select").val() != now.getFullYear())
+						// {
+						// 	$("#container1").show();
+						// }
+						// else
+						// {
+						// 	$("#container1").hide();
+						// }
+						// $("#container").html("<img src='aABCD-assets/images/InternetSlowdown_Day.gif' />");
+						// $("#chartContainer").html('');
+						// $("#chartContainer1").html('');
+					},
+					success: function(data){
+						console.log(data);
+						if (data != 'query Error111')
+						{
+							$("#chartContainer").html(data);
+							$("#chartContainer1").html(data);
+						}
+						else
+						{
+							$("#container").html('請填入完整查詢資訊！');
+							//$("#chartContainer").html('請填入完整查詢資訊！');
+						}
+						
+					},
+					error: function (error) {
+						$("#chartContainer").show();
+						$("#chartContainer").html('查詢資料錯誤!!');
+						
+						$("#chartContainer1").show();
+						$("#chartContainer1").html('查詢資料錯誤!!');
+					}
+					
+				});
+			})
+			function addSymbols(e){
+						var suffixes = ["", "K", "M", "B"];
+
+						var order = Math.max(Math.floor(Math.log(e.value) / Math.log(1000)), 0);
+						if(order > suffixes.length - 1)
+							order = suffixes.length - 1;
+
+						var suffix = suffixes[order];
+						return CanvasJS.formatNumber(e.value / Math.pow(1000, order)) + suffix;
+			}
+			$(".clickAlla").click(function() {
+				   var device_code = $(this).attr("data-gt");			   
+				   if($(this).prop("checked"))
+				   {
+				   	 if (device_code == 'Shui_1OW2EFG')
+				   	 {
+				   	 		$("input[name='Shui_OW[]']").each(function() {
+						 		$(this).prop("checked", true);
+					 		});
+				   	 		$("input[name='Shui_EFG[]']").each(function() {
+						 		$(this).prop("checked", true);
+					 		});
+				   	 }
+				   	 else
+				   	 {
+				   	 	if (device_code.search("OWEFG") != -1)
+				   	 {
+				   	 	$("input[name='Shui_OW[]']").each(function() {
+						 $(this).prop("checked", true);
+					 });
+				   	 	$("input[name='Shui_EFG[]']").each(function() {
+						 $(this).prop("checked", true);
+					 });
+				   	 }
+					 $("input[name='" + device_code + "[]']").each(function() {
+						 $(this).prop("checked", true);
+					 });
+				   	 }
+				   	 
+				   }
+				   else
+				   {
+				   	if (device_code == 'Shui_1OW2EFG')
+				   	 {
+				   	 		$("input[name='Shui_OW[]']").each(function() {
+						 $(this).prop("checked", false);
+					 });
+				   	 	$("input[name='Shui_EFG[]']").each(function() {
+						 $(this).prop("checked", false);
+					 });
+				   	 }
+				   	 else
+				   	 {
+				   	 	if (device_code.search("OWEFG") != -1)
+				   	 {
+				   	 	$("input[name='Shui_OW[]']").each(function() {
+						 $(this).prop("checked", false);
+					 });
+				   	 	$("input[name='Shui_EFG[]']").each(function() {
+						 $(this).prop("checked", false);
+					 });
+				   	 }
+				   	 $("input[name='" + device_code + "[]']").each(function() {
+						 $(this).prop("checked", false);
+					 });
+				   	 }
+				   	
+					 
+					 
+				   }
+				   if (device_code == 'Shui_1OW2EFG')
+				   {
+
+				   }
+				   else
+				   {
+				   		if ($("#location_select").val() == 'Shui')
+				   {
+				   		if ($("#sensor_select").val() == '1NP2IP')
+				   {
+				   		$("input[value='RH1']").prop("checked", false);
+						$("input[value='RAIN']").prop("checked", false);
+				   }
+				   else
+				   {
+				   		$("input[value='RH1']").prop("checked", false);
+						$("input[value='TEMP1']").prop("checked", false);
+				   }
+				   }
+				   }
+				   
+				   $("input[value='UP1A']").prop("checked", false);
+				   $("input[value='UP1B']").prop("checked", false);
+				   $("input[value='UP1C']").prop("checked", false);
+				   $("input[value='UP1D']").prop("checked", false);
+				   $("input[value='UP2A']").prop("checked", false);
+				   $("input[value='UP2B']").prop("checked", false);
+				   $("input[value='UP2C']").prop("checked", false);
+				   $("input[value='UP2D']").prop("checked", false);
+				   $("input[value='UP3A']").prop("checked", false);
+				   $("input[value='UP3B']").prop("checked", false);
+				   $("input[value='UP3C']").prop("checked", false);
+				   $("input[value='UP3D']").prop("checked", false);
+				
+			});
+			$("#year_select").change(function (){
+				var year = $(this).val();
+				var startTime = year+"-01-01";
+				var endTime = year+"-12-31";
+				$("#issueinput3").val(startTime);
+				$("#issueinput4").val(endTime);
+			});
+		</script>
+</body>
+</html>

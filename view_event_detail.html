@@ -1,0 +1,275 @@
+    <div class="app-content content">
+      <div class="content-wrapper">
+        <div class="content-header row">
+        </div>
+        <div class="content-body">
+<!--Product sale & buyers -->
+<style>
+	.avatar img {
+		border: 1px #0c0c0c dashed;
+	}
+</style>
+<?php
+	$project = new Project();
+	$data = $project->custosql("SELECT * FROM `event` WHERE EventID = ".$_GET['data']);
+
+	$array = array('Vibration'=>'','Wind'=>'');
+
+	if ($data['0']['3865_Scale'] > $data['0']['3837_Scale'])
+	{
+		$maxScale = $data['0']['3865_Scale'];
+	}
+	else
+	{
+		$maxScale = $data['0']['3837_Scale'];
+	}
+?>
+<div class="row match-height">
+    <div class="col-xl-12 col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">最新事件查詢</h4>
+                <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                <div class="heading-elements">
+                    <ul class="list-inline mb-0">
+                        <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                        <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-content">
+                <div class="card-body">
+					<p style="font-size:20px">
+						事件時間: <code><?php echo $data['0']['DataTime'];?></code>, 觸發條件: <code><?php echo $array[$data['0']['EventType']];?></code>, 最大震度:<code><?php echo $maxScale; ?></code>
+					</p>
+					<table class="table table-bordered table-striped">
+					  <thead>
+					    <tr>
+					      <th></th>
+					      <th class="text-center">
+					        sensorG<br>
+					      </th>
+					      <th class="text-center">
+					        sensorH
+					      </th>
+					      <th class="text-center">
+					        sensorI
+					      </th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr>
+					      <th class="text-nowrap" scope="row">最大值</th>
+					      <td><?php echo $data['0']['3865_Scale']; ?> <small>gal</small></td>
+					      <td><?php echo $data['0']['3837_Scale']; ?> <small>gal</small></td>
+					      <td><?php echo $data['0']['WindSpeed']; ?> <small>mm/s</small></td>
+					    </tr>
+					    <tr>
+					      <th class="text-nowrap" scope="row">最大值時間</th>
+					      <td><?php echo $data['0']['3865_MaxTime']; ?><small>'s</small></td>
+					      <td><?php echo $data['0']['3837_MaxTime']; ?> <small>'s</small></td>
+					      <td></td>
+					    </tr>
+						<tr>
+					      <th class="text-nowrap" scope="row">AmMAX. a</th>
+					      <td><?php echo $data['0']['3865_Axis_a']; ?> <small>gal</small></td>
+					      <td><?php echo $data['0']['3837_Axis_a']; ?> <small>gal</small></td>
+					      <td><?php echo $data['0']['WindDirection']; ?>°</td>
+					    </tr>
+						<tr>
+					      <th class="text-nowrap" scope="row">AmMAX. b</th>
+					      <td><?php echo $data['0']['3865_Axis_a']; ?><small>gal</small></td>
+					      <td><?php echo $data['0']['3837_Axis_b']; ?> <small>gal</small></td>
+					      <td></td>
+					    </tr>
+						<tr>
+					      <th class="text-nowrap" scope="row">AmMAX. c</th>
+					      <td><?php echo $data['0']['3865_Axis_c']; ?> <small>gal</small></td>
+					      <td><?php echo $data['0']['3837_Axis_c']; ?> <small>gal</small></td>
+					      <td></td>
+					    </tr>
+					  </tbody>
+					</table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="fileName3865" value="<?php echo $data['0']['3865FileName']?>">
+<input type="hidden" id="fileName3837" value="<?php echo $data['0']['3837FileName']?>">
+<input type="hidden" id="fileNameWind" value="<?php echo $data['0']['windFileName']?>">
+
+<!--/ Product sale & buyers -->
+<div class="row match-height">
+    <div class="col-xl-12 col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">顯示</h4>
+                <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                <div class="heading-elements">
+                    <ul class="list-inline mb-0">
+                        <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                        <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-content">
+                <div class="card-body">
+                   曲線圖
+                   <div id="containerWind"></div>
+				   <div id="chartContainerWind"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Recent Orders & Monthly Salse -->
+<div class="row match-height">
+    <div class="col-xl-12 col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">sensorG即時資料[3865]</h4>
+                <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                <div class="heading-elements">
+                    <ul class="list-inline mb-0">
+                        <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                        <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-content">
+                <div class="card-body">
+					三軸曲線
+					<div id="container3865_a"></div>
+					<div id="container3865_b"></div>
+					<div id="container3865_c"></div>
+					<div id="chartContainer3865"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-12 col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">sensorH即時資料[3837]</h4>
+                <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                <div class="heading-elements">
+                    <ul class="list-inline mb-0">
+                        <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                        <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-content">
+                <div class="card-body">
+					三軸曲線
+					<div id="container3837_a"></div>
+					<div id="container3837_b"></div>
+					<div id="container3837_c"></div>
+					<div id="chartContainer3837"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--/ Basic Horizontal Timeline -->
+
+        </div>
+      </div>
+    </div>
+<script>
+	 setInterval(function(){
+		$.getJSON("php/check_ip.php",function(response,status){
+			if(response['0'] == '1'){
+				$("#Cube_IP").attr('class', 'avatar avatar-md avatar-online');
+				$("#Cube_status").attr('class', 'badge badge-primary');
+				$('#Cube_status').text('儀器正常');
+			}else{
+				$("#Cube_IP").attr('class', 'avatar avatar-md avatar-off');
+				$("#Cube_status").attr('class', 'badge badge-secondary');
+				$('#Cube_status').text('儀器斷線');
+			}
+			
+			if(response['1'] == '1'){
+				$("#A_IP").attr('class', 'avatar avatar-md avatar-online');
+				$("#A_IP_status").attr('class', 'badge badge-primary');
+				$('#A_IP_status').text('儀器正常');
+			}else{
+				$("#A_IP").attr('class', 'avatar avatar-md avatar-off');
+				$("#A_IP_status").attr('class', 'badge badge-secondary');
+				$('#A_IP_status').text('儀器斷線');
+			}
+			
+			if(response['2'] == '1'){
+				$("#B_IP").attr('class', 'avatar avatar-md avatar-online');
+				$("#B_IP_status").attr('class', 'badge badge-primary');
+				$('#B_IP_status').text('儀器正常');
+			}else{
+				$("#B_IP").attr('class', 'avatar avatar-md avatar-off');
+				$("#B_IP_status").attr('class', 'badge badge-secondary');
+				$('#B_IP_status').text('儀器斷線');
+			}
+			
+			if(response['3'] == '1'){
+				$("#Wind_IP").attr('class', 'avatar avatar-md avatar-online');
+				$("#Wind_status").attr('class', 'badge badge-primary');
+				$('#Wind_status').text('儀器正常');
+			}else{
+				$("#Wind_IP").attr('class', 'avatar avatar-md avatar-off');
+				$("#Wind_status").attr('class', 'badge badge-secondary');
+				$('#Wind_status').text('儀器斷線');
+			}
+		});
+	},6000);	
+</script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script>
+	$(document).ready(function(){
+			$.ajax({
+		        type: "POST", 
+		        url: "php/graphWind.php", 
+		        data: "fileName="+$('#fileNameWind').val(),
+		        cache: true, 
+		        beforeSend :function(data) { 
+		          },
+		        success: function(data){
+		        	console.log(data);
+		        	$('#chartContainerWind').html(data);
+		        }
+		      });
+			$.ajax({
+		        type: "POST", 
+		        url: "php/graph3865.php", 
+		        data: "fileName="+$('#fileName3865').val(),
+		        cache: true, 
+		        beforeSend :function(data) { 
+		          },
+		        success: function(data){
+		        	$('#chartContainer3865').html(data);
+		        }
+		      });
+
+			$.ajax({
+		        type: "POST", 
+		        url: "php/graph3837.php", 
+		        data: "fileName="+$('#fileName3837').val(),
+		        cache: true, 
+		        beforeSend :function(data) { 
+		          	
+		          },
+		        success: function(data){
+		        	$('#chartContainer3837').html(data);
+		        }
+		      });
+		});
+
+
+	
+</script>
+
+ 

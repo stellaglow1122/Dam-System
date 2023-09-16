@@ -1,0 +1,445 @@
+  <div class="app-content content">
+    <div class="content-wrapper">
+      <div class="content-header row">
+        <div class="content-header-left col-md-6 col-12 mb-2">
+          <div class="row breadcrumbs-top">
+            <div class="breadcrumb-wrapper col-12">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a>
+                </li>
+                <li class="breadcrumb-item"><a href="#">功能列表</a>
+                </li>
+                <li class="breadcrumb-item active">地震儀
+                </li>
+              </ol>
+            </div>
+          </div>
+          <h3 class="content-header-title mb-0">功能列表 - 地震儀</h3>
+        </div>
+      </div>
+	  	  <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+				<div class="card-content collpase show">
+                  <div class="card-body">
+					<form class="form form-horizontal" id="dataform">
+                      <div class="form-body">	
+						<h4 class="form-section"><i class="ft-clipboard"></i> 資料查詢</h4>
+						<div class="row">
+							<div class="col-md-4">
+							<?php
+								ini_set("max_execution_time", "300");
+								//$sensorArray = array(Di_DC, Di_JT, Di_NS, Di_PP, Di_TM, Di_XT, Guo_XT, Shui_IP, Shui_NP, Shui_UP, Shui_WS, Shui_XT, Tong_OW, Tong_WT, Shui_OW, Shui_WT);
+								//$project = new Project();
+							?>
+							
+								<label for="location_select">選擇地點</label>
+								<select id="location_select" name="interested" class="form-control">
+								  <option value="">請選擇</option>
+								  
+								  <option value="1" selected="true">地點一</option>
+								  <option value="2">地點二</option>
+								  <option value="3">地點三</option>
+								  <option value="4">地點四</option>
+								  <option value="5">地點五</option>
+								</select>
+								  
+									<label for="year">年度</label>
+								  <select id="year_select" name="interested" class="form-control">
+								  <option value="">請選擇</option>
+								  <?php
+								  	$thisYear =date('Y');
+								  	$thisYear = intval($thisYear);
+								  	$year = 1987;
+									while($thisYear - $year >= 0){
+								  ?>
+								  <option value="<?=$thisYear?>">西元<?php echo $thisYear; ?>年</option>
+								  <?php
+								  	$thisYear = $thisYear - 1;
+									}
+								  ?>
+								</select>	
+								
+
+								  <label for="location_select">選擇時間</label>
+								<select id="time_select" name="interested" class="form-control">
+								  <option value="">請選擇</option>
+								</select>	
+								<input type="hidden" class="thisYear" value="<?php echo date('Y');?>">			
+							</div>	
+                          <form id="divece">
+                          </form>
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label for="issueinput7">資料日期</label>
+                              <input type="text" id="issueinput7" class="form-control" name="max1">
+							  <label for="issueinput8">震度</label>
+                              <input type="text" id="issueinput8" class="form-control" name="min1" style="text-align:right">
+							  <label for="issueinput9">X軸</label>
+                              <input type="text" id="issueinput9" class="form-control" name="x_axis" value="gal" style="text-align:right">
+							  <label for="issueinput10">Y軸</label>
+                              <input type="text" id="issueinput10" class="form-control" name="y_axis"  value="gal" style="text-align:right">
+                              <label for="issueinput11">Z軸</label>
+                              <input type="text" id="issueinput11" class="form-control" name="z_axis"  value="gal" style="text-align:right">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-actions">
+                        <button type="button" class="btn btn-warning mr-1">
+                          <i class="ft-x"></i> Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary submit">
+                          <i class="fa fa-check-square-o"></i> Query
+                        </button>
+                      </div>
+                    </form>
+				</div>
+			</div>
+		  </div>
+		</div>
+	  </div>
+      <div class="content-body">
+        <!-- combination charts section start -->
+        <section id="combination-charts">
+          <!-- Column + Line Chart -->
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header font">
+					<h4 class="card-title">X軸波形顯示</h4>
+					<a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+					  <div class="heading-elements">
+						<ul class="list-inline mb-0">
+						  <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+						  <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+						  <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+						  <li><a data-action="close"><i class="ft-x"></i></a></li>
+						</ul>
+					  </div>                   
+                </div>
+				<div class="card-content collapse show">
+                  <div class="card-body">
+                    <div id="container" style="min-width: 400px; height: 250px; margin: 0 auto"><img src='app-assets\images\InternetSlowdown_Day.gif' /></div>
+					<div id="chartContainer" style="min-width: 400px; height: 250px; margin: 0 auto"></div>
+                  </div>
+                </div>
+			  </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header font">
+					<h4 class="card-title">Y軸波形顯示</h4>
+					<a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+					  <div class="heading-elements">
+						<ul class="list-inline mb-0">
+						  <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+						  <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+						  <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+						  <li><a data-action="close"><i class="ft-x"></i></a></li>
+						</ul>
+					  </div>                   
+                </div>
+				<div class="card-content collapse show">
+                  <div class="card-body">
+                    <div id="container2" style="min-width: 400px; height: 250px; margin: 0 auto"><img src='app-assets\images\InternetSlowdown_Day.gif' /></div>
+					<div id="chartContainer" style="min-width: 400px; height: 250px; margin: 0 auto"></div>
+                  </div>
+                </div>
+			  </div>
+            </div>
+          </div>
+
+
+
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header font">
+					<h4 class="card-title">Z軸波形顯示</h4>
+					<a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+					  <div class="heading-elements">
+						<ul class="list-inline mb-0">
+						  <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+						  <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+						  <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+						  <li><a data-action="close"><i class="ft-x"></i></a></li>
+						</ul>
+					  </div>                   
+                </div>
+				<div class="card-content collapse show">
+                  <div class="card-body">
+                    <div id="container3" style="min-width: 400px; height: 250px; margin: 0 auto"><img src='app-assets\images\InternetSlowdown_Day.gif' /></div>
+					<div id="chartContainer" style="min-width: 400px; height: 250px; margin: 0 auto"></div>
+                  </div>
+                </div>
+			  </div>
+            </div>
+          </div>
+          
+          
+        </section>
+        <!-- // combination charts section end -->
+      </div>
+    </div>
+  </div>
+  <!-- ////////////////////////////////////////////////////////////////////////////-->
+  <footer class="footer footer-static footer-light navbar-border">
+    <p class="clearfix blue-grey lighten-2 text-sm-center mb-0 px-2">
+      <span class="float-md-left d-block d-md-inline-block">Copyright &copy; 2018 <a class="text-bold-800 grey darken-2" href="https://themeforest.net/user/pixinvent/portfolio?ref=pixinvent"
+        target="_blank">PIXINVENT </a>, All rights reserved. </span>
+      <span class="float-md-right d-block d-md-inline-block d-none d-lg-block">Hand-crafted & Made with <i class="ft-heart pink"></i></span>
+    </p>
+  </footer>
+  <!-- BEGIN VENDOR JS-->
+  <script src="app-assets/vendors/js/vendors.min.js" type="text/javascript"></script>
+  <!-- BEGIN VENDOR JS-->
+  <!-- BEGIN STACK JS-->
+  <script src="app-assets/js/core/app-menu.js" type="text/javascript"></script>
+  <script src="app-assets/js/core/app.js" type="text/javascript"></script>
+  <script src="app-assets/js/scripts/customizer.js" type="text/javascript"></script>
+  <!-- END STACK JS-->
+  <!-- BEGIN PAGE LEVEL JS-->
+
+  <!-- END PAGE LEVEL JS-->
+  		<script src="app-assets/js/scripts/highcharts.js"></script>
+<script src="app-assets/js/scripts/exporting.js"></script>
+<script src="app-assets/js/scripts/offline-exporting.js"></script>
+	
+			
+		<script>
+		$(document).ready(function(){
+			$("#container").hide();
+			$("#container2").hide();
+			$("#container3").hide();
+			$('#year_select').val($('.thisYear').val());
+			$.ajax({
+					type: "POST",
+					url: "ajax/query/earthquakeTime.php",
+					data: "location="+$('#location_select').val()+"&year="+$('.thisYear').val(),
+					dataType:'html',
+					restful:true,
+					cache:false,
+					timeout:200000,
+					async:true,
+					beforeSend :function(data) { 
+						//alert($('#year_select').val());
+					},
+					success: function(data){
+						if (data != 'not found')
+						{
+							var warningArray = new Array();
+							warningArray = data.split('|');
+							warningArray = warningArray.sort();
+							var n = warningArray.length - 1;
+							$("#time_select").html('<option value="">請選擇</option>');
+							while(n > 0)
+							{
+								if (n == warningArray.length - 1)
+								{
+									$("#time_select").append('<option value="'+warningArray[n]+'" selected="true">'+warningArray[n]+'</option>');
+								}
+								else
+								{
+									$("#time_select").append('<option value="'+warningArray[n]+'">'+warningArray[n]+'</option>');
+								}
+								
+								--n;
+							}
+						}
+						// alert(data);
+				var timeStr = $('#time_select').val();
+				timeStr = timeStr.replace('_', ':');
+				timeStr = timeStr.replace('_', ':');
+				timeStr = timeStr.replace('-', '/');
+				timeStr = timeStr.replace('-', '/');
+				timeStr = timeStr.replace('T', ' ');
+				timeStr = timeStr.substr(0, 19);
+				var newDate = new Date(timeStr);
+				var aaa = new Date(timeStr.replace(/-/g,'/'));
+				//var strtotime = Date.parse(Date);
+				//timeStr = timeStr.substr(0, timeStr.indexOf(','));
+				if ($('#location_select').val()=='1' || $('#location_select').val()=='2' || $('#location_select').val()=='3')
+				{
+				  var EarthPath="ajax/query/newEarthquake.php";
+				}else
+				{
+				  var EarthPath="ajax/query/newEarthquake_palert.php";
+				}
+				$.ajax({
+					type: "POST",
+					url:EarthPath,
+					data: "location_code="+$('#location_select').val()+"&timeName="+$('#time_select').val()+"&title="+$("#sensor_select :selected").text()+"&query_date_start="+$("#issueinput3").val()+"&query_date_end="+$("#issueinput4").val()+"&max1="+$("#issueinput7").val()+"&min1="+$("#issueinput8").val()+"&x_interval="+$("#issueinput10").val()+"&min2="+$("#issueinput11").val()+"&max3="+$("#issueinput12").val()+"&min3="+$("#issueinput13").val()+"&interval="+$("#issueinput9").val()+"&data="+$("#dataform").serialize(),
+					dataType:'html',
+					restful:true,
+					cache:false,
+					timeout:200000,
+					async:true,
+					beforeSend :function(data) { 
+						$("#container").show();
+						$("#container2").show();
+						$("#container3").show();
+						
+					},
+					success: function(data){
+						//var showData = substr(data, 0, data.search('|'));
+						var valueArray = new Array();
+						valueArray = data.split(',');
+						var valueArray2 = new Array();
+						valueArray2 = valueArray[3].split('|');
+						$("#chartContainer").html(data);
+						
+					},
+					error: function (error) {
+						
+						$("#chartContainer").html('查詢資料錯誤!!');
+					
+					}
+					
+				});
+						
+					},
+					error: function (error) {
+						
+					}
+					
+				});
+			
+			
+		})
+
+		$("#location_select").change(function (){
+				$("#time_select").html('<option value="">請選擇</option>');
+				$('#year_select').val('');
+				$("#issueinput11").val($('#location_select').val());
+			});
+		$("#year_select").change(function (){
+		$("#issueinput11").val($('#location_select').val());
+			$.ajax({
+					type: "POST",
+					url: "ajax/query/earthquakeTime.php",
+					data: "location="+$('#location_select').val()+"&year="+$('#year_select').val(),
+					dataType:'html',
+					restful:true,
+					cache:false,
+					timeout:200000,
+					async:true,
+					beforeSend :function(data) { 
+						//alert($('#year_select').val());
+					},
+					success: function(data){
+						if (data != 'not found')
+						{
+							var warningArray = new Array();
+							warningArray = data.split('|');
+							warningArray = warningArray.sort();
+							var n = warningArray.length - 1;
+							$("#time_select").html('<option value="">請選擇</option>');
+							while(n > 0)
+							{
+								$("#time_select").append('<option value="'+warningArray[n]+'">'+warningArray[n]+'</option>');
+								--n;
+							}
+						}
+						// alert(data);
+						
+					},
+					error: function (error) {
+						
+					}
+					
+				});
+			
+		});
+
+
+
+			$(".submit").click(function(){
+				var timeStr = $('#time_select').val();
+				timeStr = timeStr.replace('_', ':');
+				timeStr = timeStr.replace('_', ':');
+				timeStr = timeStr.replace('-', '/');
+				timeStr = timeStr.replace('-', '/');
+				timeStr = timeStr.replace('T', ' ');
+				timeStr = timeStr.substr(0, 19);
+				if ($('#location_select').val()=='1'|| $('#location_select').val()=='2' || $('#location_select').val()=='3')
+				{
+				  var EarthPath="ajax/query/newEarthquake.php";
+				}else
+				{
+				  var EarthPath="ajax/query/newEarthquake_palert.php";
+				}
+			
+				$.ajax({
+					type: "POST",
+					url:EarthPath,
+					data: "location_code="+$('#location_select').val()+"&timeName="+$('#time_select').val()+"&title="+$("#sensor_select :selected").text()+"&query_date_start="+$("#issueinput3").val()+"&query_date_end="+$("#issueinput4").val()+"&max1="+$("#issueinput7").val()+"&min1="+$("#issueinput8").val()+"&x_interval="+$("#issueinput10").val()+"&min2="+$("#issueinput11").val()+"&max3="+$("#issueinput12").val()+"&min3="+$("#issueinput13").val()+"&interval="+$("#issueinput9").val()+"&data="+$("#dataform").serialize(),
+					dataType:'html',
+					restful:true,
+					cache:false,
+					timeout:200000,
+					async:true,
+					beforeSend :function(data) { 
+						$("#container").show();
+						$("#container2").show();
+						$("#container3").show();
+						
+					},
+					success: function(data){
+						//var showData = substr(data, 0, data.search('|'));
+						var valueArray = new Array();
+						valueArray = data.split(',');
+						var valueArray2 = new Array();
+						valueArray2 = valueArray[3].split('|');
+						$("#issueinput7").val(valueArray[4].substr(0, 19));
+						$("#issueinput8").val(valueArray[0]);
+						$("#issueinput9").val(valueArray[1]+'gal');
+						$("#issueinput10").val(valueArray[2]+'gal');
+						$("#issueinput11").val(valueArray2[0]+'gal');
+						$("#chartContainer").html(data);
+						
+					},
+					error: function (error) {
+						
+						$("#chartContainer").html('查詢資料錯誤!!');
+					
+					}
+					
+				});
+			})
+			function addSymbols(e){
+						var suffixes = ["", "K", "M", "B"];
+
+						var order = Math.max(Math.floor(Math.log(e.value) / Math.log(1000)), 0);
+						if(order > suffixes.length - 1)
+							order = suffixes.length - 1;
+
+						var suffix = suffixes[order];
+						return CanvasJS.formatNumber(e.value / Math.pow(1000, order)) + suffix;
+			}
+			$(".clickAlla").click(function() {
+				   var device_code = $(this).attr("data-gt");			   
+				   if($(this).prop("checked"))
+				   {
+					 $("input[name='" + device_code +"[]']").each(function() {
+						 $(this).prop("checked", true);
+					 });
+				   }
+				   else
+				   {
+					 $("input[name='" + device_code + "[]']").each(function() {
+						 $(this).prop("checked", false);
+					 });
+					 
+				   }
+				   
+				
+			});
+			
+		</script>
+		
+</body>
+</html>

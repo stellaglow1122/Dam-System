@@ -1,0 +1,536 @@
+  <div class="app-content content">
+    <div class="content-wrapper">
+      <div class="content-header row">
+        <div class="content-header-left col-md-6 col-12 mb-2">
+          <div class="row breadcrumbs-top">
+            <div class="breadcrumb-wrapper col-12">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a>
+                </li>
+                <li class="breadcrumb-item"><a href="#">功能列表</a>
+                </li>
+                <li class="breadcrumb-item active">曲線圖查詢
+                </li>
+              </ol>
+            </div>
+          </div>
+          <h3 class="content-header-title mb-0">功能列表 - 曲線圖查詢</h3>
+        </div>
+ 
+ 
+
+      </div>
+	  	  <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+				<div class="card-content collpase show">
+                  <div class="card-body">
+					<form class="form form-horizontal" id="dataform">
+                      <div class="form-body">	
+						<h4 class="form-section"><i class="ft-clipboard"></i> 曲線圖查詢</h4>
+						<div class="row">
+							<div class="col-md-4">
+							<?php
+								ini_set("max_execution_time", "300");
+								$sensorArray = array(sensorA,sensorB,sensorC,sensorD, sensorE, sensorF);
+								$project = new Project();
+								
+							?>
+								
+								  <label for="year">選擇儀器種類</label>
+								  <select id="sensor_select" name="interested" class="form-control">
+								  <option value="請選擇">請選擇</option>
+								  
+								  <option class="senno A" value="sensorA">A</option>
+								  <option class="senno B" value="sensorB">B</option>
+								  <option class="senno C" value="sensorC">C</option>
+								  <option class="senno D" value="sensorD">D</option>
+								  <option class="senno E" value="sensorE">E</option>
+								  <option class="senno F" value="sensorF">F</option>
+								 
+								  
+								</select>
+
+							
+								  <label for="issueinput3">起始日</label>
+								  <?php
+								  	echo '<input type="date" id="issueinput3" name="interested" value = "'.date('Y-m-d', strtotime( 'today -4 month' )).'" class="form-control">';
+								  ?>
+								  <label for="issueinput4">結束日</label>
+								  <?php
+								  	echo '<input type="date" id="issueinput4" name="interested" value = "'.date('Y-m-d').'" class="form-control">';
+								  ?>					
+							</div>	
+                          <div class="col-md-4">
+                            <div class="form-group" style="height:300px;overflow-y:scroll;">
+                              <label for="projectinput5">選擇儀器</label>
+                              <form id="divece">
+									<?php
+										echo "<div class='sensors_box'>";
+											$Shui_NPACDSOWIP_All = 1;
+											$Tong_OWACDS_All = 1;
+											foreach($sensorArray as $sensor){
+												$sql1 = "SELECT ColumnName FROM DataBase.dbo.".$sensor."  ORDER BY ColumnName ";
+										 		$data1 = $project->custosql($sql1);
+												
+												
+												if($sensor == 'sensorD')  //不要加 Check all
+												{
+													$sensorName = $sensor;
+													
+												}
+												else if($sensor == 'sensorB')  //不要加 Check all
+												{
+													$sensorName = $sensor;
+												}
+												else if ($sensor == 'sensorA')
+												{
+													$sensorName = $sensor;
+													echo "<span class='sensor_name ".$sensor."' style='display:none'><input  class='clickAlla' type='checkbox' data-gt='".$sensorName."' checked>".All."</span>";
+													
+												}
+												else
+												{
+													$sensorName = $sensor;
+													echo "<span class='sensor_name ".$sensor."' style='display:none'><input  class='clickAlla' type='checkbox' data-gt='".$sensorName."' checked>".All."</span>";
+												}
+												
+												
+													foreach($data1 as $k){
+
+														
+														if ($sensor=="sensorD")
+														{
+															
+															
+															echo "<span class='sensor_name ".$sensor." ".$k['ColumnName']."' style='display:none'><input type='radio' name='".$sensorName."[]' style='margin:5px' value='".$k['ColumnName']."' unchecked>".$k['ColumnName']." </span>";
+															
+															
+														}
+														else
+														{
+															echo "<span class='sensor_name ".$sensor." ".$k['ColumnName']."' style='display:none'><input type='checkbox' name='".$sensorName."[]' style='margin:5px' value='".$k['ColumnName']."'  checked>".$k['ColumnName']."</span>";
+														}
+													}
+											}
+										echo "</div>";
+										echo '<label for="projectinput5">選擇警戒值</label>';
+										echo "<div class='sensors_box' id='alert'>";
+											$Shui_NPACDSOWIP_All = 1;
+											$Tong_OWACDS_All = 1;
+											foreach($sensorArray as $sensor){
+												$sql1 = "SELECT ColumnName, Alert1, Action1, Alert2, Action2 FROM DataBase.dbo.".$sensor."  ORDER BY ColumnName ";
+										 		$data1 = $project->custosql($sql1);
+												
+												
+												if($sensor == 'sensorD')  //不要加 Check all
+												{
+													$sensorName = $sensor;
+													
+												}
+												else if($sensor == 'sensorB')  //不要加 Check all
+												{
+													$sensorName = $sensor;
+												}
+												else if ($sensor == 'sensorA')
+												{
+													$sensorName = $sensor;	
+												}
+												else
+												{
+													$sensorName = $sensor;
+												}
+												
+												
+													foreach($data1 as $k){
+
+														
+														if ($sensor=="sensorD")
+														{
+															echo "<span class='sensor_name ".$sensor." ".$k['ColumnName']."' style='display:none'><input type='radio' class='alert' name='".$sensorName."Alert[]' data-action1= '".$k['Action1']."' data-action2= '".$k['Action2']."' data-alert1= '".$k['Alert1']."' data-alert2= '".$k['Alert2']."' style='margin:5px' value='".$k['ColumnName']."' unchecked>".$k['ColumnName']." </span>";
+															
+															
+														}
+														else
+														{
+															echo "<span class='sensor_name ".$sensor." ".$k['ColumnName']."' style='display:none'><input type='checkbox' class='alert' name='".$sensorName."Alert[]' data-action1= '".$k['Action1']."' data-action2= '".$k['Action2']."' data-alert1= '".$k['Alert1']."' data-alert2= '".$k['Alert2']."' style='margin:5px' value='".$k['ColumnName']."'  unchecked>".$k['ColumnName']."</span>";
+														}
+													}
+											}
+										echo "</div>";
+
+										echo '<label for="projectinput5">選擇行動值</label>';
+										echo "<div class='sensors_box' id='action'>";
+											$Shui_NPACDSOWIP_All = 1;
+											$Tong_OWACDS_All = 1;
+											foreach($sensorArray as $sensor){
+												$sql1 = "SELECT ColumnName, Alert1, Action1, Alert2, Action2 FROM DataBase.dbo.".$sensor."  ORDER BY ColumnName ";
+										 		$data1 = $project->custosql($sql1);
+												
+												
+												if($sensor == 'sensorD')  //不要加 Check all
+												{
+													$sensorName = $sensor;
+													
+												}
+												else if($sensor == 'sensorB')  //不要加 Check all
+												{
+													$sensorName = $sensor;
+												}
+												else if ($sensor == 'sensorA')
+												{
+													$sensorName = $sensor;	
+												}
+												else
+												{
+													$sensorName = $sensor;
+												}
+												
+												
+													foreach($data1 as $k){
+
+														
+														if ($sensor=="sensorD")
+														{
+															echo "<span class='action sensor_name ".$sensor." ".$k['ColumnName']."' style='display:none'><input type='radio' class='action' name='".$sensorName."Action[]' data-action1= '".$k['Action1']."' data-action2= '".$k['Action2']."' data-alert1= '".$k['Alert1']."' data-alert2= '".$k['Alert2']."' style='margin:5px' value='".$k['ColumnName']."' unchecked>".$k['ColumnName']." </span>";
+															
+															
+														}
+														else
+														{
+															echo "<span class='action sensor_name ".$sensor." ".$k['ColumnName']."' style='display:none'><input type='checkbox' class='action' name='".$sensorName."Action[]' data-action1= '".$k['Action1']."' data-action2= '".$k['Action2']."' data-alert1= '".$k['Alert1']."' data-alert2= '".$k['Alert2']."' style='margin:5px' value='".$k['ColumnName']."'  unchecked>".$k['ColumnName']."</span>";
+														}
+													}
+											}
+										echo "</div>";
+									
+									?>
+								</form>
+                            </div>
+
+                            
+
+                          </div>
+                          <div class="col-md-4">
+                            <div class="form-group">
+                            <label for="issueinput7">Y軸(黑色)最大值</label>
+                              <input type="text" id="issueinput7" class="form-control" name="max1">
+							  <label for="issueinput8">Y軸(黑色)最小值</label>
+                              <input type="text" id="issueinput8" class="form-control" name="min1" >
+                              <input type="hidden" id="maxValue" value="-100000000">
+                              <input type="hidden" id="minValue" value="100000000">
+							  <label for="issueinput9">Y軸刻度</label>
+                              <input type="text" id="issueinput9" class="form-control" name="interval" >
+							  <label for="issueinput10">X軸刻度</label>
+                              <input type="text" id="issueinput10" class="form-control" name="x_interval" value="0">
+							 
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-actions">
+                        <button type="button" class="btn btn-warning mr-1">
+                          <i class="ft-x"></i> Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary submit">
+                          <i class="fa fa-check-square-o"></i> Query
+                        </button>
+                      </div>
+                    </form>
+				</div>
+			</div>
+		  </div>
+		</div>
+	  </div>
+      <div class="content-body">
+        <!-- combination charts section start -->
+        <section id="combination-charts">
+          <!-- Column + Line Chart -->
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header font">
+					<h4 class="card-title">曲線圖顯示</h4>
+					<a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+					  <div class="heading-elements">
+						<ul class="list-inline mb-0">
+						  <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+						  <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+						  <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+						  <li><a data-action="close"><i class="ft-x"></i></a></li>
+						</ul>
+					  </div>                   
+                </div>
+				<div class="card-content collapse show">
+                  <div class="card-body">
+				  <?php
+				  
+				   if($sensor == 'sensorD') {
+                     echo "<div id='container' style='min-width: 800px; height: 800px; margin: 0 auto'><img src='app-assets\images\InternetSlowdown_Day.gif' /></div>";
+					
+					 echo "<div id='chartContainer' style='height: 800px; max-width:800px; margin: auto;  overflow: hidden;'></div>";
+					}
+					
+					else  {
+					  
+					  echo "<div id='container' style='min-width: 400px; height: 250px; margin: 0 auto'><img src='app-assets\images\InternetSlowdown_Day.gif' /></div>";
+					
+					  echo "<div id='chartContainer' style='height: 800px; max-width: 250px; margin: auto;  overflow: hidden;'></div>";
+					
+					}
+					 ?>
+                  </div>
+                </div>
+			  </div>
+            </div>
+          </div>
+          
+          
+        </section>
+        <!-- // combination charts section end -->
+      </div>
+    </div>
+  </div>
+  <!-- ////////////////////////////////////////////////////////////////////////////-->
+ 
+ 
+ 
+  <!-- BEGIN VENDOR JS-->
+  <script src="app-assets/vendors/js/vendors.min.js" type="text/javascript"></script>
+  <!-- BEGIN VENDOR JS-->
+  <!-- BEGIN STACK JS-->
+  <script src="app-assets/js/core/app-menu.js" type="text/javascript"></script>
+  <script src="app-assets/js/core/app.js" type="text/javascript"></script>
+  <script src="app-assets/js/scripts/customizer.js" type="text/javascript"></script>
+  <!-- END STACK JS-->
+  <!-- BEGIN PAGE LEVEL JS-->
+
+  <!-- END PAGE LEVEL JS-->
+  
+ 
+      <script src="app-assets/js/scripts/highcharts.js"></script> 
+	
+      <script src="app-assets/js/scripts/exporting.js"></script>
+      <script src="app-assets/js/scripts/offline-exporting.js"></script>
+	
+		<script>
+	
+		
+		$(document).ready(function(){
+			$("#container").hide();
+			//$("#container1").hide();
+			//$("#Di_XT_select").hide();
+			//$("#Di_XT_title").hide();
+		})
+		$("#alert").change(function (){
+			$("input[name='" + $("#sensor_select").val() +"Alert[]']").each(function() 
+			{
+				var nonChecked = 1;
+				if($(this).prop("checked"))
+				{
+					if (parseFloat($(this).attr("data-alert1")) > parseFloat($("#maxValue").val()))
+					{
+						var maxValue = $(this).attr("data-alert1");
+						$("#maxValue").val(maxValue);
+					}
+					if (parseFloat($(this).attr("data-alert2")) < parseFloat($("#minValue").val()))
+					{
+						var minValue = $(this).attr("data-alert2");
+						$("#minValue").val(minValue);
+					}
+					nonChecked = 0;
+				}
+				$('#issueinput7').val($("#maxValue").val());
+				$('#issueinput8').val($("#minValue").val());
+				// if (nonChecked == 1)
+				// {
+				// 	$("#maxValue").val('');
+				// 	$("#minValue").val('');
+				// }
+			});
+		});
+		$("#action").change(function (){
+			$("input[name='" + $("#sensor_select").val() +"Action[]']").each(function() 
+			{
+				var nonChecked = 1;
+				if($(this).prop("checked"))
+				{
+					if (parseFloat($(this).attr("data-action1")) > parseFloat($("#maxValue").val()))
+					{
+						var maxValue = $(this).attr("data-action1");
+						$("#maxValue").val(maxValue);
+					}
+					if (parseFloat($(this).attr("data-action2")) < parseFloat($("#minValue").val()))
+					{
+						var minValue = $(this).attr("data-action2");
+						$("#minValue").val(minValue);
+					}
+					nonChecked = 0;
+				}
+				$('#issueinput7').val($("#maxValue").val());
+				$('#issueinput8').val($("#minValue").val());
+				// if (nonChecked == 1)
+				// {
+				// 	$("#maxValue").val('');
+				// 	$("#minValue").val('');
+				// }
+			});
+		});
+			
+		$("#sensor_select").change(function (){
+		
+				var sensor = $(this).val();
+				$('#issueinput7').val('');
+				$('#issueinput8').val('');
+				$("#maxValue").val('-100000000');
+				$("#minValue").val('100000000');
+				$(".alert").prop("checked", false);
+				$(".action").prop("checked", false);
+
+				switch (sensor)
+				{
+					case "sensorA":
+					
+					$('.sensor_name').hide();
+					$('.sensorA').show();
+					$('.sensorA').attr('style','display:inline-block');
+					break;
+					
+					
+					case "sensorB":
+					
+					$('.sensor_name').hide();
+					$('.sensorB').show();
+					$('.sensorB').attr('style','display:inline-block');
+					break;
+					case "sensorC":
+					$('.sensor_name').hide();
+					$('.sensorC').show();
+					$('.sensorC').attr('style','display:inline-block');
+					break;
+										
+					case "sensorD":
+					$('.sensor_name').hide();
+					$('.sensorD').show();
+					$('.sensorD').attr('style','display:inline-block');
+					break;
+
+					case "sensorE":
+					$('.sensor_name').hide();
+					$('.sensorE').show();
+					$('.sensorE').attr('style','display:inline-block');
+					break;
+
+					case "sensorF":
+					$('.sensor_name').hide();
+					$('.sensorF').show();
+					$('.sensorF').attr('style','display:inline-block');
+					break;
+				}
+			});
+
+
+		
+
+
+
+			$(".submit").click(function(){
+				$.ajax({
+					type: "POST",
+					url: "ajax/query/chart_1.php",
+					data: "sensor_code="+$('#sensor_select').val()+"&title="+$("#sensor_select :selected").text()+"&query_date_start="+$("#issueinput3").val()+"&query_date_end="+$("#issueinput4").val()+"&max1="+$("#issueinput7").val()+"&min1="+$("#issueinput8").val()+"&max2="+$("#issueinput10").val()+"&min2="+$("#issueinput11").val()+"&max3="+$("#issueinput12").val()+"&min3="+$("#issueinput13").val()+"&int="+$("#issueinput9").val()+"&data="+$("#dataform").serialize()+"sensor_code_alert="+$('.alertValue').val(),
+					//data:"ted=yes&datetime="+$("#select_option").val()+"&title="+$("#select_option :selected").text()+"&query_date_start="+$("#issueinput3").val()+"&query_date_end="+$("#issueinput4").val()+"&data="+$("#dataform").serialize(),
+					dataType:'html',
+					restful:true,
+					cache:false,
+					timeout:200000,
+					async:true,
+					beforeSend :function(data) { 
+						$("#container").show();
+						var now = new Date();
+						if ($("#issueinput3").val() == $("#year_select").val()+"-01-01" && $("#issueinput4").val() == $("#year_select").val()+"-12-31" && $("#year_select").val() != now.getFullYear())
+						{
+							//$("#container1").show();
+						}
+						else
+						{
+							//$("#container1").hide();
+						}
+						$("#container").html("<img src='app-assets/images/InternetSlowdown_Day.gif' />");
+						$("#chartContainer").html('');
+						
+					},
+					success: function(data){
+						if (data != 'query Error111')
+						{
+							$("#chartContainer").html(data);
+							//location.href="ajax/query/chart_1.php";
+						}
+						else
+						{
+							$("#container").html('請填入完整查詢資訊！');
+							//$("#chartContainer").html('請填入完整查詢資訊！');
+						}
+						
+					},
+					error: function (error) {
+						$("#chartContainer").show();
+						$("#chartContainer").html('查詢資料錯誤!!');
+					
+					}
+					
+				});
+			})
+			function addSymbols(e){
+						var suffixes = ["", "K", "M", "B"];
+
+						var order = Math.max(Math.floor(Math.log(e.value) / Math.log(1000)), 0);
+						if(order > suffixes.length - 1)
+							order = suffixes.length - 1;
+
+						var suffix = suffixes[order];
+						return CanvasJS.formatNumber(e.value / Math.pow(1000, order)) + suffix;
+			}
+			$(".clickAlla").click(function() {
+			       
+				   var device_code = $(this).attr("data-gt");	
+                   
+				   
+				    if($(this).prop("checked"))
+				   {			
+				    	 $("input[name='" + device_code +"[]']").each(function() {
+						 $(this).prop("checked", true);
+					 });
+				   
+				        
+				   }
+				   
+				   
+				    else
+				   {
+					    
+						
+ 					    $("input[name='" + device_code + "[]']").each(function() {
+					  	 $(this).prop("checked", false);
+					
+
+					});
+				         
+				   }
+				  
+				  
+				  
+				   });
+				   
+		  
+				   
+			$("#year_select").change(function (){
+				var year = $(this).val();
+				var startTime = year+"-01-01";
+				var endTime = year+"-12-31";
+				$("#issueinput3").val(startTime);
+				$("#issueinput4").val(endTime);
+			});
+		</script>
+</body>
+</html>
